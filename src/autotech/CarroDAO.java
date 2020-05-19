@@ -30,8 +30,10 @@ class Carro {
 	}
 	
 	public String getInfo() {
-		return String.format("ID: %d\tPlaca: %s\tAno: %s\tCor: %s\tID Modelo: %d\tID Cliente: %d",
-				id, placa, ano, cor, carroModelo_id, cliente_id);
+		return String.format(
+				"ID: %d\tPlaca: %s\tAno: %s\tCor: %s\tID Modelo: %d\tID Cliente: %d",
+				id, placa, ano, cor, carroModelo_id, cliente_id
+		);
 	}
 }
 
