@@ -6,14 +6,20 @@ import java.sql.SQLException;
 
 public class Database {
 	
-	public static void main(String[] args) throws SQLException {
+	public static Connection getConexao() throws SQLException {
 		
 		String url = "jdbc:mysql://localhost:3306?useTimezone=true&serverTimezone=UTC";
 		String usuario = "root";
 		String senha = "root";
 		
 		Connection conexao = DriverManager.getConnection(url, usuario, senha);
-		System.out.println("Conexão efetuada com sucesso.");
+		return conexao;
+	}
+
+	public static void main(String[] args) throws SQLException {
+		
+		Connection conexao;
+		conexao = Database.getConexao();
 		testarAplicacao(conexao);
 		conexao.close(); 
 	}

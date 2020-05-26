@@ -16,10 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JMenuBar;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
@@ -60,15 +56,21 @@ public class AutoTechCarros extends CarroDAO {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
 	 */
-	public AutoTechCarros() {
+	public AutoTechCarros() throws SQLException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws SQLException 
 	 */
-	private void initialize() {
+	private void initialize() throws SQLException {
+		
+		Connection conexao;
+		conexao = Database.getConexao();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,15 +86,15 @@ public class AutoTechCarros extends CarroDAO {
 		lblNomePag.setFont(new Font("Arial", Font.BOLD, 15));
 		panel.add(lblNomePag);
 		
-		JLabel VeiculoDAO = new JLabel("Tipo de Ve\u00EDculo:");
-		VeiculoDAO.setFont(new Font("Arial", Font.BOLD, 12));
-		VeiculoDAO.setBounds(10, 39, 94, 14);
-		panel.add(VeiculoDAO);
+		JLabel tipoVeiculoLabel = new JLabel("Tipo de Ve\u00EDculo:");
+		tipoVeiculoLabel.setFont(new Font("Arial", Font.BOLD, 12));
+		tipoVeiculoLabel.setBounds(10, 39, 94, 14);
+		panel.add(tipoVeiculoLabel);
 		
-		JLabel ServicoDAO = new JLabel("Qual tipo de servi\u00E7o deseja: ");
-		ServicoDAO.setFont(new Font("Arial", Font.BOLD, 12));
-		ServicoDAO.setBounds(10, 165, 159, 14);
-		panel.add(ServicoDAO);
+		JLabel tipoServicoLabel = new JLabel("Qual tipo de servi\u00E7o deseja: ");
+		tipoServicoLabel.setFont(new Font("Arial", Font.BOLD, 12));
+		tipoServicoLabel.setBounds(10, 165, 159, 14);
+		panel.add(tipoServicoLabel);
 		
 		JLabel ano = new JLabel("Ano do Ve\u00EDculo:");
 		ano.setFont(new Font("Arial", Font.BOLD, 12));
@@ -109,10 +111,10 @@ public class AutoTechCarros extends CarroDAO {
 		Enviar.setBounds(169, 227, 103, 23);
 		panel.add(Enviar);
 		
-		JLabel FabricanteDAO = new JLabel("Fabricante:");
-		FabricanteDAO.setFont(new Font("Arial", Font.BOLD, 12));
-		FabricanteDAO.setBounds(10, 118, 63, 14);
-		panel.add(FabricanteDAO);
+		JLabel fabricanteLabel = new JLabel("Fabricante:");
+		fabricanteLabel.setFont(new Font("Arial", Font.BOLD, 12));
+		fabricanteLabel.setBounds(10, 118, 63, 14);
+		panel.add(fabricanteLabel);
 		
 		JLabel placa = new JLabel("Placa do Ve\u00EDculo:");
 		placa.setFont(new Font("Arial", Font.BOLD, 12));
@@ -141,16 +143,18 @@ public class AutoTechCarros extends CarroDAO {
 		JList list = new JList();
 		list.setBounds(214, 131, -60, -62);
 		panel.add(list);
-		
+
+		// Exemplo de uso do DAO, instancias de objetos de interface nao devem ser chamadas de DAO e sim do tipo correspondente
+		// ArrayList<Fabricante> fabricantes = FabricanteDAO.getFabricantes(conexao); // TODO: usar esse metodo para popular usando Combobox.setModel
 		JComboBox FabricanteVeiculo = new JComboBox();
 		FabricanteVeiculo.setModel(new DefaultComboBoxModel(new String[] {"Chevrolet", "Volkswagen", "Fiat", "Renault", "Ford", "Toyota", "Hyundai", "Jeep", "Honda", "Nissan", "Citro\u00EBn", "Mitsubishi", "Peugeot", "Chery", "BMW", "Mercedes-Benz", "Kia", "Audi", "Volvo", "Land Rover "}));
 		FabricanteVeiculo.setBounds(83, 114, 108, 22);
 		panel.add(FabricanteVeiculo);
-		
-		JLabel VeiculoModeloDAO = new JLabel("Modelo do Ve\u00EDculo:");
-		VeiculoModeloDAO.setFont(new Font("Arial", Font.BOLD, 12));
-		VeiculoModeloDAO.setBounds(10, 76, 109, 14);
-		panel.add(VeiculoModeloDAO);
+
+		JLabel veiculoLabel = new JLabel("Modelo do Ve\u00EDculo:");
+		veiculoLabel.setFont(new Font("Arial", Font.BOLD, 12));
+		veiculoLabel.setBounds(10, 76, 109, 14);
+		panel.add(veiculoLabel);
 		
 		anoVeiculo = new JTextField();
 		anoVeiculo.setBounds(351, 73, 73, 20);
@@ -166,5 +170,7 @@ public class AutoTechCarros extends CarroDAO {
 		placaVeiculo.setBounds(351, 39, 73, 20);
 		panel.add(placaVeiculo);
 		placaVeiculo.setColumns(10);
+		
+		conexao.close(); 
 	}
 }
