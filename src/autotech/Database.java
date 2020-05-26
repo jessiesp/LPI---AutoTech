@@ -111,31 +111,38 @@ public class Database {
 	    }
 		
 		///////INSERIR TIPO DE SERVIÇO///////
-		Servico servico = new Servico("Manutenção preventiva", (float)100.0);
+		/*Servico servico = new Servico("Manutenção preventiva", (float)100.0);
 		if (ServicoDAO.inserirServico(conexao, servico)) {
 			System.out.println("Serviço cadastrado.");
 		} else {
 			System.out.println("Erro ao inserir serviço.");
-		}
+		}*/
 		
 		///////LISTAR TIPOS DE SERVIÇO///////
-		System.out.println("Listando serviços:");
+		System.out.println("Listando serviços:");	
 		for (Servico s : ServicoDAO.getServicos(conexao)) {
 			System.out.println(s.getInfo());
 	    }
 		
 		///////CRIAR ORDEM DE SERVIÇO///////
-		OrdemServico ordemServico = new OrdemServico("Aberta", "2020-05-18 16:20", 1, 2);
+		/*OrdemServico ordemServico = new OrdemServico("Aberta", "2020-05-18 16:20", 1, 2);
 		if (OrdemServicoDAO.inserirOrdemServico(conexao, ordemServico)) {
 			System.out.println("Ordem de serviço criada.");
 		} else {
 			System.out.println("Erro ao criar ordem de serviço.");
+		}*/
+		
+		///////ASSOCIAR UM SERVIÇO A UMA ORDEM DE SERVIÇO///////
+		if (OrdemServicoDAO.associarServico(conexao, 3, 13)) {
+			System.out.println("Serviço associado.");
+		} else {
+			System.out.println("Erro ao associar serviço.");
 		}
 		
 		///////LISTAR ORDENS DE SERVIÇO///////
 		System.out.println("Listando ordens de servico:");
 		for (OrdemServico os : OrdemServicoDAO.getOrdensServico(conexao)) {
 			System.out.println(os.getInfo());
-	    }
+	    }	
 	}
 }
