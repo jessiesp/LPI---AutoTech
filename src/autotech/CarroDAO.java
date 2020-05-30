@@ -39,7 +39,7 @@ class Carro {
 
 public class CarroDAO {
 	
-	public static ArrayList<Carro> getClientes(Connection conexao) throws SQLException {
+	public static ArrayList<Carro> getCarros(Connection conexao) throws SQLException {
 		Statement st = null;
 		String query = "SELECT * FROM autotech.carro";
 		ArrayList<Carro> carros = new ArrayList<Carro>();
@@ -66,7 +66,7 @@ public class CarroDAO {
 	
 	public static boolean inserirCarro(Connection conexao, Carro carro) throws SQLException {
 		PreparedStatement st = null;
-		String query = "INSERT INTO autotech.carro (placa, ano, cor, carroModelo_id, cliente_id) VALUES (?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO autotech.carro (placa, ano, cor, carroModelo_id, cliente_id) VALUES (?, ?, ?, ?, ?)";
 		
 		try {
 			st = conexao.prepareStatement(query);
@@ -78,8 +78,27 @@ public class CarroDAO {
 			st.execute();
 			return true;
 		} 
-		catch (SQLException e ) {
+		catch (SQLException e) {
+			System.out.println(e);
 			return false;
 	    }
+	}
+	
+	public static boolean deletarCarro(Connection conexao, int carroId) throws SQLException {
+		Statement st = null;
+		String query = "DELETE FROM autotech.carro WHERE id = ";
+		
+		try {
+			st = conexao.createStatement();
+			st.executeUpdate(query + carroId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return false;
 	}
 }

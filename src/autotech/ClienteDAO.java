@@ -75,5 +75,43 @@ public class ClienteDAO {
 			return false;
 	    }
 	}
-
+	
+	public static boolean deletarCliente(Connection conexao, int clienteId) throws SQLException {
+		Statement st = null;
+		String query = "DELETE FROM autotech.cliente WHERE id = ";
+		
+		try {
+			st = conexao.createStatement();
+			st.executeUpdate(query + clienteId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return false;
+	}
+	
+	public static boolean alterarCliente(Connection conexao, int clienteId, String nome, String cpf) throws SQLException {
+		PreparedStatement st = null;
+		String query = "UPDATE autotech.cliente SET nome = ?, cpf = ? WHERE id = ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, nome);
+			st.setString(2, cpf);
+			st.setInt(3, clienteId);
+			st.execute();
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }		
+	}	
 }

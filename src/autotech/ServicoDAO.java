@@ -73,5 +73,22 @@ public class ServicoDAO {
 			return false;
 	    }
 	}
-
+	
+	public static boolean deletarServico(Connection conexao, int servicoId) throws SQLException {
+		Statement st = null;
+		String query = "DELETE FROM autotech.servico WHERE id = ";
+		
+		try {
+			st = conexao.createStatement();
+			st.executeUpdate(query + servicoId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return false;
+	}
 }

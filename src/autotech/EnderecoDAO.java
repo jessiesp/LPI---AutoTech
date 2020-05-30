@@ -79,5 +79,28 @@ public class EnderecoDAO {
 		catch (SQLException e ) {
 			return false;
 	    }
+	}
+	
+	public static boolean alterarEndereco(Connection conexao, String rua, String numero, String complemento, String bairro, int usuarioId) throws SQLException {
+		PreparedStatement st = null;
+		String query = "UPDATE autotech.endereco SET rua = ?, numero = ?, complemento = ?, bairro = ? WHERE usuario_id = ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, rua);
+			st.setString(2, numero);
+			st.setString(3, complemento);
+			st.setString(4, bairro);
+			st.setInt(5, usuarioId);
+			st.execute();
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }		
 	}	
 }

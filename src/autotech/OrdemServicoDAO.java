@@ -112,4 +112,48 @@ public class OrdemServicoDAO {
 			return false;
 	    }
 	}
+	
+	public static boolean deletarOrdemServico(Connection conexao, int ordemServicoId) throws SQLException {
+		Statement stServicoHas = null, statementOrdemServico = null;
+		String queryServicoHas = "DELETE FROM autotech.servico_has_ordemServico WHERE ordemServico_id = ";
+		String queryOrdemServico = "DELETE FROM autotech.ordemServico WHERE id = ";
+		
+		try {
+			stServicoHas = conexao.createStatement();
+			stServicoHas.executeUpdate(queryServicoHas + ordemServicoId);
+			statementOrdemServico = conexao.createStatement();
+			statementOrdemServico.executeUpdate(queryOrdemServico + ordemServicoId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (stServicoHas != null) stServicoHas.close(); 
+	        if (statementOrdemServico != null) statementOrdemServico.close();
+	    }	
+		return false;
+	}
+	
+	public static boolean alterarOrdemServico(Connection conexao, String status, String data, int carro_id, int usuarioId) throws SQLException {
+		PreparedStatement st = null;
+		String query = "UPDATE autotech.ordemServico SET status = ?, data = ?, carro_id = ? WHERE id = ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, status);
+			st.setString(2, data);
+			st.setInt(3, carro_id);
+			st.setInt(4, usuarioId);
+			st.execute();
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }		
+	}
 }

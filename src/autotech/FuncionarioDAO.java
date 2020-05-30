@@ -72,6 +72,44 @@ public class FuncionarioDAO {
 			return false;
 	    }
 	}
+	
+	public static boolean deletarFuncionario(Connection conexao, int funcionarioId) throws SQLException {
+		Statement st = null;
+		String query = "DELETE FROM autotech.funcionario WHERE id = ";
+		
+		try {
+			st = conexao.createStatement();
+			st.executeUpdate(query + funcionarioId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return false;
+	}
+	
+	public static boolean alterarFuncionario(Connection conexao, String nome, int funcionarioId) throws SQLException {
+		PreparedStatement st = null;
+		String query = "UPDATE autotech.funcionario SET nome = ? WHERE id = ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, nome);
+			st.setInt(2, funcionarioId);
+			st.execute();
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }		
+	}	
 }
 
 	 

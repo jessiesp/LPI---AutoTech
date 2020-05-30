@@ -69,5 +69,23 @@ public class CarroModeloDAO {
 		catch (SQLException e ) {
 			return false;
 	    }
-	}	
+	}
+	
+	public static boolean deletarModelo(Connection conexao, int carroModeloId) throws SQLException {
+		Statement st = null;
+		String query = "DELETE FROM autotech.carromodelo WHERE id = ";
+		
+		try {
+			st = conexao.createStatement();
+			st.executeUpdate(query + carroModeloId);
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return false;
+	}
 }
