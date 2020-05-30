@@ -23,6 +23,14 @@ class Usuario {
 		this.tipo = tipo;
 		this.password = password;
 	}
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
 	
 	public String getInfo() {
 		String tels = "";
@@ -95,15 +103,15 @@ public class UsuarioDAO {
 		return usuario;
 	}
 		
-	public static boolean inserirUsuario(Connection conexao, Usuario usuario) throws SQLException {
+	public static boolean inserirUsuario(Connection conexao, String email, String tipo, String password) throws SQLException {
 		PreparedStatement st = null;
 		String query = "INSERT INTO autotech.usuario (email, tipo, password) VALUES (?, ?, ?)";
   
 		try {
 			st = conexao.prepareStatement(query);
-			st.setString(1, usuario.email);
-			st.setString(2, usuario.tipo);
-			st.setString(3, usuario.password);
+			st.setString(1, email);
+			st.setString(2, tipo);
+			st.setString(3, password);
 			st.execute();
 			return true;
 		} catch (SQLException e ) {
