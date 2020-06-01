@@ -1,8 +1,17 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import com.autotech.models.Carro;
+import com.autotech.models.CarroModelo;
+import com.autotech.models.Cliente;
+import com.autotech.models.Endereco;
+import com.autotech.models.Fabricante;
+import com.autotech.models.Funcionario;
+import com.autotech.models.OrdemServico;
+import com.autotech.models.Servico;
+import com.autotech.models.Usuario;
 
 public class Database {
 	
@@ -25,12 +34,12 @@ public class Database {
 	}
 	
 	public static void testarAplicacao(Connection conexao) throws SQLException {
-		///////INSERIR USUÁRIO///////
+		///////INSERIR USUï¿½RIO///////
 		/*Usuario user = new Usuario("mujica@gmail.com", "cliente", "123456");
-		if (UsuarioDAO.inserirUsuario(conexao, user)) {
-			System.out.println("Usuário criado.");
+		if (UsuarioDAO.inserirUsuario(conexao, "mujica@gmail.com", "cliente", "123456")) {
+			System.out.println("Usuï¿½rio criado.");
 		} else {
-			System.out.println("Erro ao inserir usuário.");
+			System.out.println("Erro ao inserir usuï¿½rio.");
 		}
 		
 		///////INSERIR TELEFONE///////
@@ -40,50 +49,50 @@ public class Database {
 			System.out.println("Erro ao inserir telefone.");
 		}*/
 		
-		///////DELETAR USUÁRIO///////
+		///////DELETAR USUï¿½RIO///////
 		/*if (UsuarioDAO.deletarUsuario(conexao, 37)) {
-			System.out.println("Usuário deletado.");
+			System.out.println("Usuï¿½rio deletado.");
 		} else {
-			System.out.println("Erro ao deletar usuário.");
+			System.out.println("Erro ao deletar usuï¿½rio.");
 		}*/
 		
-		///////ALTERAR DADOS DO USUÁRIO///////
+		///////ALTERAR DADOS DO USUï¿½RIO///////
 		/*if(UsuarioDAO.alterarUsuario(conexao, "juju@sachemail.com", "Cliente", "123456", "978456325", 3)) {
-			System.out.println("Dados do usuário alterados.");
+			System.out.println("Dados do usuï¿½rio alterados.");
 		} else {
-			System.out.println("Erro ao alterar dados do usuário.");
+			System.out.println("Erro ao alterar dados do usuï¿½rio.");
 		}*/
 		
-		///////LISTAR USUÁRIOS///////
-		System.out.println("Listando usuários:");
+		///////LISTAR USUï¿½RIOS///////
+		System.out.println("Listando usuÃ¡rios:");
 		for (Usuario u : UsuarioDAO.getUsuarios(conexao)) {
 			System.out.println(u.getInfo());
 	    }
 		
-		///////INSERIR FUNCIONÁRIO///////
+		///////INSERIR FUNCIONï¿½RIO///////
 		/*Funcionario func = new Funcionario("Mujica", 32);
 		if (FuncionarioDAO.inserirFuncionario(conexao, func)) {
-			System.out.println("Dados do funcionário cadastrados.");
+			System.out.println("Dados do funcionï¿½rio cadastrados.");
 		} else {
-			System.out.println("Erro ao inserir dados do funcionário.");
+			System.out.println("Erro ao inserir dados do funcionï¿½rio.");
 		}*/
 		
-		///////DELETAR FUNCIONÁRIO///////
+		///////DELETAR FUNCIONï¿½RIO///////
 		/*if (FuncionarioDAO.deletarFuncionario(conexao, 3)) {
-			System.out.println("Funcionário deletado.");
+			System.out.println("Funcionï¿½rio deletado.");
 		} else {
-			System.out.println("Erro ao deletar funcionário.");
+			System.out.println("Erro ao deletar funcionï¿½rio.");
 		}*/
 		
-		///////ALTERAR DADOS DO FUNCIONÁRIO///////
+		///////ALTERAR DADOS DO FUNCIONï¿½RIO///////
 		/*if(FuncionarioDAO.alterarFuncionario(conexao, "Janis Fucking Joplin", 2)) {
-			System.out.println("Dados do funcionário alterados.");
+			System.out.println("Dados do funcionï¿½rio alterados.");
 		} else {
-			System.out.println("Erro ao alterar dados do funcionário.");
+			System.out.println("Erro ao alterar dados do funcionï¿½rio.");
 		}*/
 		
-		///////LISTAR FUNCIONÁRIOS///////
-		System.out.println("Listando funcionários:");
+		///////LISTAR FUNCIONï¿½RIOS///////
+		System.out.println("Listando funcionï¿½rios:");
 		for (Funcionario f : FuncionarioDAO.getFuncionarios(conexao)) {
 			System.out.println(f.getInfo());
 	    }
@@ -116,23 +125,23 @@ public class Database {
 			System.out.println(c.getInfo());
 	    }
 		
-		///////INSERIR ENDEREÇO///////
+		///////INSERIR ENDEREï¿½O///////
 		/*Endereco endereco = new Endereco("Santa Cruz", "100", null, "Barroca", 32);
 		if (EnderecoDAO.inserirEndereco(conexao, endereco)) {
-			System.out.println("Endereço cadastrado.");
+			System.out.println("Endereï¿½o cadastrado.");
 		} else {
-			System.out.println("Erro ao inserir endereço.");
+			System.out.println("Erro ao inserir endereï¿½o.");
 		}*/
 		
-		///////ALTERAR ENDEREÇO///////
-		/*if(EnderecoDAO.alterarEndereco(conexao, "Amur", "200", null, "Betânia", 32)) {
-			System.out.println("Endereço alterado.");
+		///////ALTERAR ENDEREï¿½O///////
+		/*if(EnderecoDAO.alterarEndereco(conexao, "Amur", "200", null, "Betï¿½nia", 32)) {
+			System.out.println("Endereï¿½o alterado.");
 		} else {
-			System.out.println("Erro ao alterar endereço.");
+			System.out.println("Erro ao alterar endereï¿½o.");
 		}*/
 		
-		///////LISTAR ENDEREÇOS///////
-		System.out.println("Listando endereços:");
+		///////LISTAR ENDEREï¿½OS///////
+		System.out.println("Listando endereï¿½os:");
 		for (Endereco e : EnderecoDAO.getEnderecos(conexao)) {
 			System.out.println(e.getInfo());
 	    }
@@ -188,62 +197,62 @@ public class Database {
 		
 		///////DELETAR CARRO///////
 		/*if (CarroDAO.deletarCarro(conexao, 3)) {
-			System.out.println("Veículo deletado.");
+			System.out.println("Veï¿½culo deletado.");
 		} else {
-			System.out.println("Erro ao deletar veículo.");
+			System.out.println("Erro ao deletar veï¿½culo.");
 		}*/
 		
-		///////INSERIR TIPO DE SERVIÇO///////
-		/*Servico servico = new Servico("Manutenção preventiva", (float)100.0);
+		///////INSERIR TIPO DE SERVIï¿½O///////
+		/*Servico servico = new Servico("Manutenï¿½ï¿½o preventiva", (float)100.0);
 		if (ServicoDAO.inserirServico(conexao, servico)) {
-			System.out.println("Serviço cadastrado.");
+			System.out.println("Serviï¿½o cadastrado.");
 		} else {
-			System.out.println("Erro ao inserir serviço.");
+			System.out.println("Erro ao inserir serviï¿½o.");
 		}*/
 		
-		///////DELETAR SERVIÇO///////
+		///////DELETAR SERVIï¿½O///////
 		/*if (ServicoDAO.deletarServico(conexao, 7)) {
-			System.out.println("Serviço deletado.");
+			System.out.println("Serviï¿½o deletado.");
 		} else {
-			System.out.println("Erro ao deletar serviço.");
+			System.out.println("Erro ao deletar serviï¿½o.");
 		}*/
 		
-		///////LISTAR TIPOS DE SERVIÇO///////
-		System.out.println("Listando serviços:");	
+		///////LISTAR TIPOS DE SERVIï¿½O///////
+		System.out.println("Listando serviï¿½os:");	
 		for (Servico s : ServicoDAO.getServicos(conexao)) {
 			System.out.println(s.getInfo());
 	    }
 		
-		///////CRIAR ORDEM DE SERVIÇO///////
+		///////CRIAR ORDEM DE SERVIï¿½O///////
 		/*OrdemServico ordemServico = new OrdemServico("Aberta", "2020-05-18 16:20", 1, 2);
 		if (OrdemServicoDAO.inserirOrdemServico(conexao, ordemServico)) {
-			System.out.println("Ordem de serviço criada.");
+			System.out.println("Ordem de serviï¿½o criada.");
 		} else {
-			System.out.println("Erro ao criar ordem de serviço.");
+			System.out.println("Erro ao criar ordem de serviï¿½o.");
 		}*/
 		
-		///////ASSOCIAR UM SERVIÇO A UMA ORDEM DE SERVIÇO///////
+		///////ASSOCIAR UM SERVIï¿½O A UMA ORDEM DE SERVIï¿½O///////
 		/*if (OrdemServicoDAO.associarServico(conexao, 3, 13)) {
-			System.out.println("Serviço associado.");
+			System.out.println("Serviï¿½o associado.");
 		} else {
-			System.out.println("Erro ao associar serviço.");
+			System.out.println("Erro ao associar serviï¿½o.");
 		}*/
 		
-		///////DELETAR ORDEM DE SERVIÇO///////
+		///////DELETAR ORDEM DE SERVIï¿½O///////
 		/*if (OrdemServicoDAO.deletarOrdemServico(conexao, 13)) {
-			System.out.println("Ordem de serviço deletada.");
+			System.out.println("Ordem de serviï¿½o deletada.");
 		} else {
-			System.out.println("Erro ao deletar ordem de serviço.");
+			System.out.println("Erro ao deletar ordem de serviï¿½o.");
 		}*/
 		
-		///////ALTERAR ORDEM DE SERVIÇO///////
+		///////ALTERAR ORDEM DE SERVIï¿½O///////
 		/*if(OrdemServicoDAO.alterarOrdemServico(conexao, "Fechada", "2020-05-29 22:53", 2, 14)) {
-			System.out.println("Ordem de serviço alterada.");
+			System.out.println("Ordem de serviï¿½o alterada.");
 		} else {
-			System.out.println("Erro ao alterar ordem de serviço.");
+			System.out.println("Erro ao alterar ordem de serviï¿½o.");
 		}*/
 		
-		///////LISTAR ORDENS DE SERVIÇO///////
+		///////LISTAR ORDENS DE SERVIï¿½O///////
 		System.out.println("Listando ordens de servico:");
 		for (OrdemServico os : OrdemServicoDAO.getOrdensServico(conexao)) {
 			System.out.println(os.getInfo());

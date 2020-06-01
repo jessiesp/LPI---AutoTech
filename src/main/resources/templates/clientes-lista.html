@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout.html">
+    <div class="container" layout:fragment="container">
+      <h1>Clientes</h1>
+      <table class="striped">
+        <thead>
+          <tr>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.nome}"></td>
+            <td th:text="${cliente.cpf}"></td>
+            <td><a th:href="@{/deletarCliente} + '?id=' + ${cliente.getId()}" class="waves-effect waves-light btn-small">Remover<i class="material-icons right">delete_forever</i></a></td>
+          </tr>
+           
+        </tbody>
+      </table>
+    </div>
+</html>

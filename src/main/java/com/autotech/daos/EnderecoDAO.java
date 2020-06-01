@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,34 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-class Endereco {
-	
-	public int id, usuario_id;
-	public String rua, numero, complemento, bairro;
-	
-	public Endereco(int id, String rua, String numero, String complemento, String bairro, int usuario_id) {
-		this.id = id;
-		this.rua = rua;
-		this.numero = numero;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.usuario_id = usuario_id;
-	}
-	
-	public Endereco(String rua, String numero, String complemento, String bairro, int usuario_id) {
-		this.rua = rua;
-		this.numero = numero;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.usuario_id = usuario_id;
-	}
-	
-	public String getInfo() {
-		return String.format("ID: %d\tRua: %s\tNúmero: %s\tComplemento: %s\tBairro: %s\tID Usuário: %s",
-				id, rua, numero, complemento, bairro, usuario_id);
-	}
-}
+import com.autotech.models.Endereco;
 
 public class EnderecoDAO {
 	

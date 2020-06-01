@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,30 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-class Servico {
-	
-	public int id;
-	public String nome;
-	public float preco;
-	
-	public Servico(int id, String nome, float preco) {
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-	}
-	
-	public Servico(String nome, float preco) {
-		this.nome = nome;
-		this.preco = preco;
-	}
-	
-	public String getInfo() {
-		return String.format(
-				"ID: %d\tPlaca: %s\tPreço: %f",
-				id, nome, preco
-		);
-	}
-}
+import com.autotech.models.Servico;
 
 public class ServicoDAO {
 	

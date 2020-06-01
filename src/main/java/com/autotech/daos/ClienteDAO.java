@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,32 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-class Cliente {
-	
-	public int id, usuario_id;
-	String nome, cpf;
-	
-	public Cliente(int id, String nome, String cpf, int usuario_id) {
-		this.id = id;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.usuario_id = usuario_id;
-	}
-	
-	public Cliente(String nome, String cpf, int usuario_id) {
-		this.nome = nome;
-		this.cpf = cpf;
-		this.usuario_id = usuario_id;
-	}
-	
-	public String getInfo() {
-		return String.format(
-				"ID: %d\tNome: %s\tCPF: %s\tID Usuário: %d", 
-				id, nome, cpf, usuario_id
-		);
-	}
-}
+import com.autotech.models.Cliente;
+import com.autotech.models.Usuario;
 
 public class ClienteDAO {
 	
@@ -58,16 +34,37 @@ public class ClienteDAO {
 	    }	
 		return clientes;
 	}
+
+	public static Cliente getCliente(Connection conexao, int idCliente) throws SQLException {
+		Statement st = null;
+		String query = "SELECT * FROM autotech.cliente WHERE id = ";
+		Cliente cliente = null;
+		
+		try {
+			st = conexao.createStatement();
+			ResultSet rs = st.executeQuery(query + idCliente);
+			if (rs.next()) {
+				cliente = new Cliente(
+					idCliente, rs.getString("nome"), rs.getString("cpf"), rs.getInt("usuario_id")
+				);
+			}
+		} catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } finally {
+	        if (st != null) st.close(); 
+	    }
+		return cliente;
+	}
 	
-	public static boolean inserirCliente(Connection conexao, Cliente cliente) throws SQLException {
+	public static boolean inserirCliente(Connection conexao, String nome, String cpf, int usuarioId) throws SQLException {
 		PreparedStatement st = null;
 		String query = "INSERT INTO autotech.cliente (nome, cpf, usuario_id) VALUES (?, ?, ?)";
 		
 		try {
 			st = conexao.prepareStatement(query);
-			st.setString(1, cliente.nome);
-			st.setString(2, cliente.cpf);
-			st.setInt(3, cliente.usuario_id);
+			st.setString(1, nome);
+			st.setString(2, cpf);
+			st.setInt(3, usuarioId);
 			st.execute();
 			return true;
 		} 

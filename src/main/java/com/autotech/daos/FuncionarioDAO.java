@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,30 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-class Funcionario {
-	
-	public int id, usuario_id;
-	public String nome;
-	
-	public Funcionario(int id, String nome, int usuario_id) {
-		this.id = id;
-		this.nome = nome;
-		this.usuario_id = usuario_id;
-	}
-	
-	public Funcionario(String nome, int usuario_id) {
-		this.nome = nome;
-		this.usuario_id = usuario_id;
-	}
-	
-	public String getInfo() {
-		return String.format(
-			"ID: %d\tNome: %s\tID Usuário: %d", 
-			id, nome, usuario_id
-		);
-	}
-}
+import com.autotech.models.Funcionario;
 
 public class FuncionarioDAO {
 

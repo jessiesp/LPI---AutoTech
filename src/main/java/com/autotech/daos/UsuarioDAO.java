@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,46 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-class Usuario {
-	public int id;
-	public String email, tipo, password;
-	public ArrayList<String> telefones = new ArrayList<String>();
-	
-	public Usuario(int id, String email, String tipo) {
-		this.id = id;
-		this.email = email;
-		this.tipo = tipo;
-	}
-	
-	public Usuario(String email, String tipo, String password) {
-		this.email = email;
-		this.tipo = tipo;
-		this.password = password;
-	}
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-	
-	public String getInfo() {
-		String tels = "";
-		for (String t : this.telefones) {
-			tels += String.format("%s - ", t);
-		}
-		return String.format(
-			"ID: %d\tEmail: %s\tTipo: %s\tTelefones: %s",
-			id, email, tipo, tels
-		);
-	}
-	
-	public void adicionarTelefone(String telefone) {
-		this.telefones.add(telefone);
-	}
-}
+import com.autotech.models.Usuario;
 
 public class UsuarioDAO {
 
@@ -103,20 +64,25 @@ public class UsuarioDAO {
 		return usuario;
 	}
 		
-	public static boolean inserirUsuario(Connection conexao, String email, String tipo, String password) throws SQLException {
+	public static int inserirUsuario(Connection conexao, String email, String tipo, String password) throws SQLException {
 		PreparedStatement st = null;
+		Statement stId = null;
 		String query = "INSERT INTO autotech.usuario (email, tipo, password) VALUES (?, ?, ?)";
+		String queryId = "SELECT LAST_INSERT_ID() as id";
   
-		try {
-			st = conexao.prepareStatement(query);
-			st.setString(1, email);
-			st.setString(2, tipo);
-			st.setString(3, password);
-			st.execute();
-			return true;
-		} catch (SQLException e ) {
-			return false;
-	    }
+		st = conexao.prepareStatement(query);
+		st.setString(1, email);
+		st.setString(2, tipo);
+		st.setString(3, password);
+		st.execute();
+		stId = conexao.createStatement();
+		ResultSet rs = stId.executeQuery(queryId);
+		if (rs.next()) {
+			return rs.getInt("id");
+		}
+		else {
+			throw new SQLException("No last id fetched");
+		}
 	}
 	
 	public static boolean inserirTelefone(Connection conexao, int usuario_id, String telefone) throws SQLException {

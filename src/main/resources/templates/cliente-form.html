@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout.html">
+    <div layout:fragment="container" class=container>
+      <div class="row">
+      <h3>Registrar</h3>
+	    <form class="col s12" method="POST">
+	      <div class="row">
+	        <div class="input-field col s6">
+	          <input placeholder="Digite seu nome" id="nome" type="text" class="validate" name="nome" required th:value="${nome}">
+	          <label for="nome">Nome</label>
+	        </div>
+	        <div class="input-field col s6">
+	          <input id="cpf" type="text" class="validate" name="cpf" required th:value="${cpf}">
+	          <label for="cpf">CPF</label>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="input-field col s12">
+	          <input id="email" type="email" class="validate" name="email" required th:value="${email}">
+	          <label for="email">Email</label>
+	        </div>
+	      </div>
+	      <div class="row">
+	        <div class="input-field col s12">
+	          <input id="senha1" type="password" class="validate" name="senha1" required>
+	          <label for="senha1">Senha</label>
+	        </div>
+	      </div>
+	      	<div class="row">
+	        <div class="input-field col s12">
+	          <input id="senha1" type="password" class="validate" name="senha2" required>
+	          <label for="senha1">Repita sua senha</label>
+	        </div>
+	      </div>
+	      <button class="waves-effect waves-light btn" type="submit">Registrar-se</button>
+	    </form>
+	  </div>
+    </div>
+</html>
+
+        

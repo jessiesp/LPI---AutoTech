@@ -1,4 +1,4 @@
-package autotech;
+package com.autotech.daos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,25 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-class Fabricante {
-	
-	public int id;
-	public String nome;
-	
-	public Fabricante(int id, String nome) {
-		this.id = id;
-		this.nome = nome;
-	}
-	
-	public Fabricante(String nome) {
-		this.nome = nome;
-	}
-	
-	public String getInfo() {
-		return String.format("ID: %d\tNome: %s",
-				id, nome);
-	}
-}
+import com.autotech.models.Fabricante;
 
 public class FabricanteDAO {
 	
