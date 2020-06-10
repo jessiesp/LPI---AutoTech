@@ -4,27 +4,26 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.autotech.daos.ClienteDAO;
 import com.autotech.daos.Database;
 import com.autotech.daos.UsuarioDAO;
-import com.autotech.models.Cliente;
 
 @Controller
 public class ClienteController {
 	@RequestMapping("/registrarCliente")
-	public String clienteForm() {
+	public String clienteForm(HttpSession session) {
+
 		return "cliente-form";
 	}
-	
+
 	@RequestMapping(value="/registrarCliente", method=RequestMethod.POST)
 	public String clienteRegistrar(
 			WebRequest request,
@@ -36,7 +35,6 @@ public class ClienteController {
 			   senha2 = request.getParameter("senha2"),
 			   nome = request.getParameter("nome"),
 			   cpf = request.getParameter("cpf");
-	
 
 		if (senha1.equals(senha2)) {
 			Connection conexao = Database.getConexao();
@@ -63,5 +61,3 @@ public class ClienteController {
 		return "redirect:/registrarCliente";
 	}
 }
-
-

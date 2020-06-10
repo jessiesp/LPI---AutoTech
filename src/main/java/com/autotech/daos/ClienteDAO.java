@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import com.autotech.models.Cliente;
-import com.autotech.models.Usuario;
 
 public class ClienteDAO {
 	
@@ -73,22 +72,40 @@ public class ClienteDAO {
 	    }
 	}
 	
-	public static boolean deletarCliente(Connection conexao, int clienteId) throws SQLException {
-		Statement st = null;
-		String query = "DELETE FROM autotech.cliente WHERE id = ";
+	public static void deletarCliente(Connection conexao, int clienteId) throws SQLException {
+		PreparedStatement stServicoHasOrdemServico = null, stOrdemServico = null, stCarro = null, stCliente = null;
+		String queryCliente = "DELETE FROM autotech.cliente WHERE id = ?";
+		String queryCarro = "DELETE FROM autotech.carro WHERE cliente_id = ?";
+		String queryOrdemServico = "DELETE FROM autotech.ordemservico WHERE carro_id IN (SELECT id FROM autotech.carro WHERE cliente_id = ?)";
+		String queryServicoHasOrdemServico = "DELETE FROM autotech.servico_has_ordemservico WHERE ordemServico_id IN "
+			+ "(SELECT id FROM autotech.ordemservico WHERE carro_id IN "
+			+ "(SELECT id FROM autotech.carro WHERE cliente_id = ?))";
 		
 		try {
-			st = conexao.createStatement();
-			st.executeUpdate(query + clienteId);
-			return true;
+			stServicoHasOrdemServico = conexao.prepareStatement(queryServicoHasOrdemServico);
+			stServicoHasOrdemServico.setInt(1, clienteId);
+			stOrdemServico = conexao.prepareStatement(queryOrdemServico);
+			stOrdemServico.setInt(1, clienteId);
+			stCarro = conexao.prepareStatement(queryCarro);
+			stCarro.setInt(1, clienteId);
+			stCliente = conexao.prepareStatement(queryCliente);
+			stCliente.setInt(1, clienteId);
+			stServicoHasOrdemServico.execute();
+			stOrdemServico.execute();
+			stCarro.execute();
+			stCliente.execute();
 		}
-		catch (SQLException e ) {
-			System.out.println("Erro! " + e);
+		catch (SQLException e) {
+			System.out.println(e);
+			throw e;
 	    } 
 		finally {
-	        if (st != null) st.close(); 
-	    }	
-		return false;
+	        if (stCliente != null) stCliente.close(); 
+	        if (stCarro != null) stCarro.close();
+	        if (stOrdemServico != null) stOrdemServico.close(); 
+	        if (stServicoHasOrdemServico != null) stServicoHasOrdemServico.close(); 
+
+	    }
 	}
 	
 	public static boolean alterarCliente(Connection conexao, int clienteId, String nome, String cpf) throws SQLException {

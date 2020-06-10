@@ -63,6 +63,26 @@ public class UsuarioDAO {
 	    }
 		return usuario;
 	}
+	
+	public static int getUsuarioId(Connection conexao, String email, String senha) {
+		PreparedStatement st = null;
+		String query = "SELECT id FROM autotech.usuario WHERE email LIKE ? AND password LIKE ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, email);
+			st.setString(2, senha);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				int usuarioId = rs.getInt("id");
+				return usuarioId;
+			}
+			if (st != null) st.close(); 
+		} catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    }
+		return 0;
+	}
 		
 	public static int inserirUsuario(Connection conexao, String email, String tipo, String password) throws SQLException {
 		PreparedStatement st = null;
@@ -101,22 +121,33 @@ public class UsuarioDAO {
 	    }
 	}
 	
-	public static boolean deletarUsuario(Connection conexao, int usuarioId) throws SQLException {
-		Statement st = null;
-		String query = "DELETE FROM autotech.usuario WHERE id = ";
+	public static void deletarUsuario(Connection conexao, int usuarioId) throws SQLException {
+		PreparedStatement stEndereco = null, stUsuario = null, stTelefone = null;
+		String queryUsuario = "DELETE FROM autotech.usuario WHERE id = ?";
+		String queryTelefone = "DELETE FROM autotech.telefone WHERE usuario_id = ?";
+		String queryEndereco = "DELETE FROM autotech.endereco WHERE usuario_id = ?";
 		
 		try {
-			st = conexao.createStatement();
-			st.executeUpdate(query + usuarioId);
-			return true;
+			stTelefone = conexao.prepareStatement(queryTelefone);
+			stTelefone.setInt(1, usuarioId);
+			stEndereco = conexao.prepareStatement(queryEndereco);
+			stEndereco.setInt(1, usuarioId);
+			stUsuario = conexao.prepareStatement(queryUsuario);
+			stUsuario.setInt(1, usuarioId);
+			stTelefone.execute();
+			stEndereco.execute();
+			stUsuario.execute();
+			
 		}
 		catch (SQLException e ) {
 			System.out.println("Erro! " + e);
+			throw e;
 	    } 
 		finally {
-	        if (st != null) st.close(); 
-	    }	
-		return false;
+	        if (stTelefone != null) stTelefone.close(); 
+	        if (stEndereco != null) stEndereco.close();
+	        if (stUsuario != null) stUsuario.close();
+	    }
 	}
 	
 	public static boolean alterarUsuario(Connection conexao, String email, String tipo, String password, String telefone, int usuarioId) throws SQLException {

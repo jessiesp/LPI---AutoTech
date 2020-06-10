@@ -39,7 +39,6 @@ public class AdminController {
 		conexao.close(); 
 		return "redirect:/listarClientes";
 	}
-	
 }
 
 
