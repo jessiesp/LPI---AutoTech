@@ -1,20 +1,3 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: autotech
--- ------------------------------------------------------
--- Server version	8.0.19
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 --
 -- Table structure for table `carro`
 --
@@ -35,7 +18,7 @@ CREATE TABLE `carro` (
   KEY `fk_carro_cliente_id_idx` (`cliente_id`),
   CONSTRAINT `fk_carro_carroModelo1` FOREIGN KEY (`carroModelo_id`) REFERENCES `carromodelo` (`id`),
   CONSTRAINT `fk_carro_cliente_id` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +35,7 @@ CREATE TABLE `carromodelo` (
   PRIMARY KEY (`id`,`fabricante_id`),
   KEY `fk_carroModelo_fabricante1_idx` (`fabricante_id`),
   CONSTRAINT `fk_carroModelo_fabricante1` FOREIGN KEY (`fabricante_id`) REFERENCES `fabricante` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +54,7 @@ CREATE TABLE `cliente` (
   UNIQUE KEY `cpf_UNIQUE` (`cpf`),
   KEY `fk_cliente_usuario1_idx` (`usuario_id`),
   CONSTRAINT `fk_cliente_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +74,7 @@ CREATE TABLE `endereco` (
   PRIMARY KEY (`id`,`usuario_id`),
   KEY `fk_Endereço_usuario1_idx` (`usuario_id`),
   CONSTRAINT `fk_Endereço_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +88,7 @@ CREATE TABLE `fabricante` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +105,7 @@ CREATE TABLE `funcionario` (
   PRIMARY KEY (`id`,`usuario_id`),
   KEY `fk_funcionario_usuario1_idx` (`usuario_id`),
   CONSTRAINT `fk_funcionario_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +126,7 @@ CREATE TABLE `ordemservico` (
   KEY `fk_ordemServico_carro_idx` (`carro_id`),
   CONSTRAINT `fk_ordemServico_carro` FOREIGN KEY (`carro_id`) REFERENCES `carro` (`id`),
   CONSTRAINT `fk_ordemServico_funcionario1` FOREIGN KEY (`funcionario_id`) REFERENCES `funcionario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +141,7 @@ CREATE TABLE `servico` (
   `nome` varchar(45) DEFAULT NULL,
   `preco` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +160,7 @@ CREATE TABLE `servico_has_ordemservico` (
   KEY `fk_servico_has_ordemServico_servico1_idx` (`servico_id`),
   CONSTRAINT `fk_servico_has_ordemServico_ordemServico1` FOREIGN KEY (`ordemServico_id`) REFERENCES `ordemservico` (`id`),
   CONSTRAINT `fk_servico_has_ordemServico_servico1` FOREIGN KEY (`servico_id`) REFERENCES `servico` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +178,7 @@ CREATE TABLE `telefone` (
   UNIQUE KEY `telefone_UNIQUE` (`telefone`),
   KEY `fk_telefone_usuario1_idx` (`usuario_id`),
   CONSTRAINT `fk_telefone_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,16 +195,5 @@ CREATE TABLE `usuario` (
   `tipo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2020-05-16 21:08:25
