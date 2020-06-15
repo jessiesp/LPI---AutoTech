@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout.html">
+	    <div class="container" layout:fragment="container">
+	      <h3>Veículos</h3>
+	      <table class="striped">
+	        <thead>
+	          <tr>
+	              <th>Placa</th>
+	              <th>Modelo</th>
+	              <th>Fabricante</th>
+	              <th>Ano</th>
+	              <th>Cor</th>
+	          </tr>
+	        </thead>
+	
+	        <tbody>
+	          <tr th:each="carro : ${carros}">
+	            <td th:text="${carro.placa}"></td>
+	            <td th:text="${carro.nomeModelo}"></td>
+	            <td th:text="${carro.nomeFabricante}"></td>
+	            <td th:text="${carro.ano}"></td>
+	            <td th:text="${carro.cor}"></td>
+	            <td>
+	            	<form method="POST" action="/deletarVeiculo">
+	            		<button type="submit" class="waves-effect waves-light btn-small">Remover<i class="material-icons right">delete_forever</i></button>
+	            		<input type="hidden" name="carroId" th:value="${carro.id}" />
+	            	</form>
+            	</td>
+	          </tr>
+	           
+	        </tbody>
+	      </table>
+	      <h5>Adicionar</h5>
+	      <form class="col s12 form" method="POST">
+			<div class="row">
+				<div class="input-field col s4">
+					<input placeholder="Placa" id="placa" type="text" class="validate" name="placa" required>
+					<label for="placa">Placa</label>
+				</div>
+				<div class="input-field col s8">
+					<select required name="modelo">
+				      <option value="" disabled selected>Selecione o modelo</option>
+				   	  <option th:each="modelo : ${modelos}" th:value="${modelo.id}" th:text="${modelo.toString()}"></option>
+				    </select>
+				</div>
+				<div class="input-field col s4">
+					<input id="ano" type="text" class="validate" name="ano" required maxlength=4>
+					<label for="ano">Ano</label>
+				</div>
+				<div class="input-field col s8">
+					<input id="cor" type="text" class="validate" name="cor" required>
+					<label for="cor">Cor</label>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Adicionar veículo</button>
+			</form>
+</html>

@@ -20,13 +20,11 @@ public class IndexController {
 	
 	@RequestMapping("/")
 	public String Index(ModelMap model, HttpSession session) {
-		
 		Integer usuarioId = (Integer) session.getAttribute("usuarioId");
 		if(usuarioId == null) {
-			return "redirect:login";
+			return "redirect:/login";
 		}
-		model.addAttribute("usuarioId", usuarioId);
-		return "index";
+		return "redirect:/ordemServico";
 	}
 
 	@RequestMapping(value="/logout")

@@ -54,6 +54,27 @@ public class ClienteDAO {
 	    }
 		return cliente;
 	}
+
+	public static Cliente getClienteByUsuario(Connection conexao, int idUsuario) throws SQLException {
+		Statement st = null;
+		String query = "SELECT * FROM autotech.cliente WHERE usuario_id = ";
+		Cliente cliente = null;
+		
+		try {
+			st = conexao.createStatement();
+			ResultSet rs = st.executeQuery(query + idUsuario);
+			if (rs.next()) {
+				cliente = new Cliente(
+					rs.getInt("id"), rs.getString("nome"), rs.getString("cpf"), idUsuario
+				);
+			}
+		} catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } finally {
+	        if (st != null) st.close(); 
+	    }
+		return cliente;
+	}
 	
 	public static boolean inserirCliente(Connection conexao, String nome, String cpf, int usuarioId) throws SQLException {
 		PreparedStatement st = null;

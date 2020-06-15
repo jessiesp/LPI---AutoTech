@@ -13,7 +13,7 @@ public class CarroModeloDAO {
 
 	public static ArrayList<CarroModelo> getModelos(Connection conexao) throws SQLException {
 		Statement st = null;
-		String query = "SELECT * FROM autotech.carroModelo";
+		String query = "SELECT autotech.carroModelo.id, autotech.carroModelo.nomeModelo, autotech.fabricante.nome AS nomeFabricante FROM autotech.carroModelo, autotech.fabricante WHERE autotech.carroModelo.fabricante_id = autotech.fabricante.id";
 		ArrayList<CarroModelo> modelos = new ArrayList<CarroModelo>();
 		
 		try {
@@ -21,19 +21,19 @@ public class CarroModeloDAO {
 			ResultSet rs = st.executeQuery(query);
 			while (rs.next()) {
 				CarroModelo carroModelo = new CarroModelo(
-					rs.getInt("id"), rs.getString("nomeModelo"), rs.getInt("fabricante_id")
+					rs.getInt("id"), rs.getString("nomeModelo"), rs.getString("nomeFabricante")
 				);
 				modelos.add(carroModelo);
 			}
 		}
-			catch (SQLException e ) {
-				System.out.println("Erro! " + e);
-		    } 
-			finally {
-		        if (st != null) st.close(); 
-		    }	
-			return modelos;	
-		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return modelos;	
+	}
 	
 	public static boolean inserirModelo(Connection conexao, CarroModelo carroModelo) throws SQLException {
 		PreparedStatement st = null;

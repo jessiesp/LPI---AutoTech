@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layout.html">
+        <div layout:fragment="container" class=container>
+          <h3>Ordens de Serviço</h3>
+          <div th:each="carro : ${carros}">
+          	<h5 th:text="${carro.toString()}"></h5>
+          	 <table class="striped">
+	        <thead>
+	          <tr>
+	              <th>Data</th>
+	              <th>Serviços</th>
+	              <th>Status</th>
+	              <th>Ações</th>
+	          </tr>
+	        </thead>
+	
+	        <tbody>
+	          <tr th:each="ordemServico : ${carro.getOrdensServico()}">
+	            <td th:text="${#dates.format(ordemServico.getData(), 'dd/MM/yyyy')}"></td>
+	            
+	             <td th:text="${ordemServico.getServicos()}"></td>
+	            
+	            <td th:if="${ordemServico.status == 'emAnalise'}"> <span class="new badge red">Em análise</span></td>
+	            <td th:if="${ordemServico.status == 'emAndamento'}"><span class="new badge yellow">Em andamento</span></td>
+	            <td th:if="${ordemServico.status == 'concluido'}"><span class="new badge green">Concluído</span></td>
+	            
+	            <td><a th:href="@{/alterarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small">Alterar<i class="material-icons right">edit</i></a></td>
+	            <td><a th:href="@{/deletarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small">Remover<i class="material-icons right">delete_forever</i></a></td>
+	          </tr>
+	           
+	        </tbody>
+	      </table>
+          </div>
+	     
+	    </div>
+</html>

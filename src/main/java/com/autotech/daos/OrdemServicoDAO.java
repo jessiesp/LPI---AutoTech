@@ -12,19 +12,21 @@ import com.autotech.models.Servico;
 
 public class OrdemServicoDAO {
 	
-	public static ArrayList<OrdemServico> getOrdensServico(Connection conexao) throws SQLException {
-		Statement st = null, stServico = null;
-		String query = "SELECT * FROM autotech.ordemservico";
+	public static ArrayList<OrdemServico> getOrdensServico(Connection conexao, int carroId) throws SQLException {
+		Statement stServico = null;
+		PreparedStatement st = null;
+		String query = "SELECT * FROM autotech.ordemservico WHERE carro_id = ? ORDER BY data DESC";
 		String queryServico = "SELECT s.id, s.nome, s.preco FROM autotech.servico_has_ordemservico as o, autotech.servico as s " + 
 							  "WHERE s.id = o.servico_id AND o.ordemservico_id = ";
 		ArrayList<OrdemServico> ordensServico = new ArrayList<OrdemServico>();
 		
 		try {
-			st = conexao.createStatement();
-			ResultSet rs = st.executeQuery(query);
+			st = conexao.prepareStatement(query);
+			st.setInt(1, carroId);
+			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				OrdemServico ordemServico = new OrdemServico(
-					rs.getInt("id"), rs.getString("status"), rs.getString("data"), rs.getInt("funcionario_id"), rs.getInt("carro_id")
+					rs.getInt("id"), rs.getString("status"), rs.getString("data"), rs.getString("comentarios"),rs.getInt("funcionario_id"), rs.getInt("carro_id")
 				);
 				stServico = conexao.createStatement();
 				ResultSet rsServico = stServico.executeQuery(queryServico + ordemServico.id);
@@ -44,38 +46,68 @@ public class OrdemServicoDAO {
 		return ordensServico;
 	}
 	
-	public static boolean inserirOrdemServico(Connection conexao, OrdemServico ordemServico) throws SQLException {
-		PreparedStatement st = null;
-		String query = "INSERT INTO autotech.ordemservico (status, data, funcionario_id, carro_id) VALUES (?, ?, ?, ?)";
+	public static OrdemServico getOrdemServico(Connection conexao, int idOrdemServico) throws SQLException {
+		Statement st = null, stServico = null;
+		String query = "SELECT * FROM autotech.ordemservico WHERE id = ";
+		String queryServico = "SELECT s.id, s.nome, s.preco FROM autotech.servico_has_ordemservico as o, autotech.servico as s " + 
+							  "WHERE s.id = o.servico_id AND o.ordemservico_id = ";
+		OrdemServico ordemServico = null;
 		
 		try {
-			st = conexao.prepareStatement(query);
-			st.setString(1, ordemServico.status);
-			st.setString(2, ordemServico.data);
-			st.setInt(3, ordemServico.funcionarioId);
-			st.setInt(4, ordemServico.carroId);
-			st.execute();
-			return true;
-		} 
+			st = conexao.createStatement();
+			ResultSet rs = st.executeQuery(query + idOrdemServico);
+			while (rs.next()) {
+				ordemServico = new OrdemServico(
+					idOrdemServico, rs.getString("status"), rs.getString("data"), rs.getString("comentarios"),rs.getInt("funcionario_id"), rs.getInt("carro_id")
+				);
+				stServico = conexao.createStatement();
+				ResultSet rsServico = stServico.executeQuery(queryServico + idOrdemServico);
+				while (rsServico.next()) {
+					Servico servico = new Servico(rsServico.getInt("id"), rsServico.getString("nome"), rsServico.getFloat("preco"));
+					ordemServico.adicionarServico(servico);
+				}
+				
+			}
+		}
 		catch (SQLException e ) {
-			return false;
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
 	    }
+		return ordemServico;
 	}
 	
-	public static boolean associarServico(Connection conexao, int servico_id, int ordemServico_id) throws SQLException {
+	public static int inserirOrdemServico(
+	Connection conexao, String status, String data, String comentarios, int carro_id) throws SQLException {
+		PreparedStatement st = null;
+		Statement stId = null;
+		String query = "INSERT INTO autotech.ordemservico (status, data, comentarios, carro_id) VALUES ('emAnalise', ?, ?, ?)";
+		String queryId = "SELECT LAST_INSERT_ID() as id";
+		
+		st = conexao.prepareStatement(query);
+		st.setString(1, data);
+		st.setString(2, comentarios);
+		st.setInt(3, carro_id);
+		st.execute();
+		stId = conexao.createStatement();
+		ResultSet rs = stId.executeQuery(queryId);
+		if (rs.next()) {
+			return rs.getInt("id");
+		}
+		else {
+			throw new SQLException("No last id fetched");
+		}
+	}
+	
+	public static void associarServico(Connection conexao, int servico_id, int ordemServico_id) throws SQLException {
 		PreparedStatement st = null;
 		String query = "INSERT INTO autotech.servico_has_ordemservico (servico_id, ordemservico_id) VALUES (?, ?)";
 
-		try {
-			st = conexao.prepareStatement(query);
-			st.setInt(1, servico_id);
-			st.setInt(2, ordemServico_id);
-			st.execute();
-			return true;
-		} 
-		catch (SQLException e ) {
-			return false;
-	    }
+		st = conexao.prepareStatement(query);
+		st.setInt(1, servico_id);
+		st.setInt(2, ordemServico_id);
+		st.execute();
 	}
 	
 	public static boolean deletarOrdemServico(Connection conexao, int ordemServicoId) throws SQLException {
@@ -100,16 +132,32 @@ public class OrdemServicoDAO {
 		return false;
 	}
 	
-	public static boolean alterarOrdemServico(Connection conexao, String status, String data, int carro_id, int usuarioId) throws SQLException {
+	public static void desassociarServicos(Connection conexao, int ordemServicoId) throws SQLException {
+		Statement stServicoHas = null;
+		String queryServicoHas = "DELETE FROM autotech.servico_has_ordemServico WHERE ordemServico_id = ";
+		
+		try {
+			stServicoHas = conexao.createStatement();
+			stServicoHas.executeUpdate(queryServicoHas + ordemServicoId);
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (stServicoHas != null) stServicoHas.close(); 
+	    }	
+	}
+	
+	public static boolean alterarOrdemServico(Connection conexao, String data, String comentarios, int carro_id, int ordemServicoId) throws SQLException {
 		PreparedStatement st = null;
-		String query = "UPDATE autotech.ordemServico SET status = ?, data = ?, carro_id = ? WHERE id = ?";
+		String query = "UPDATE autotech.ordemServico SET data = ?, comentarios = ?, carro_id = ? WHERE id = ?";
 		
 		try {
 			st = conexao.prepareStatement(query);
-			st.setString(1, status);
-			st.setString(2, data);
+			st.setString(1, data);
+			st.setString(2, comentarios);
 			st.setInt(3, carro_id);
-			st.setInt(4, usuarioId);
+			st.setInt(4, ordemServicoId);
 			st.execute();
 			return true;
 		}

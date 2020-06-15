@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout.html">
+<div layout:fragment="container" class=container>
+
+	<div class="row">
+		<h3 th:text="${cliente.nome}"></h3>
+		<h5>Dados pessoais</h5>
+		<form class="col s12 form" method="POST">
+			<div class="row">
+				<div class="input-field col s6">
+					<input placeholder="Digite seu nome" id="nome" type="text" class="validate" name="nome" required th:value="${cliente.nome}">
+					<label for="nome">Nome</label>
+				</div>
+				<div class="input-field col s6">
+					<input id="cpf" type="text" class="validate" name="cpf" required th:value="${cliente.cpf}">
+					<label for="cpf">CPF</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="email" type="text" class="validate" name="email" disabled th:value="${usuario.email}">
+					<label for="email">E-mail</label>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Salvar dados</button>
+		</form>
+		<h5>Alterar senha</h5>
+		<form class="col s12 form" method="POST" action="/alterarSenha">
+			<div class="row">
+				<div class="input-field col s6">
+					<input id="senha1" type="password" class="validate" name="senha1" required> <label for="senha1">Senha</label>
+				</div>
+				<div class="input-field col s6">
+					<input id="senha1" type="password" class="validate" name="senha2" required> <label for="senha1">Repita sua senha</label>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Alterar senha</button>
+		</form>
+		
+		<h5>Telefones</h5>
+		<ul class="collection with-header">
+			<li class="collection-item"
+				th:each="telefone: ${usuario.getTelefones()}">
+				<div>
+					<form method="POST" action="/deletarTelefone">
+						<input type="hidden" class="validate" name="telefone" required th:value="${telefone}" />
+						<span th:text="${telefone}"></span>
+						<button href="#!" class="secondary-content btn-flat close-button">
+							<i class="material-icons">close</i>
+						</button>
+					</form>
+				</div></li>
+		</ul>
+		<form class="col s12 form" method="POST" action="/adicionarTelefone">
+			<div class="row">
+
+				<div class="input-field col s12">
+					<input type="tel" name="telefone" required maxlength=12 /> <label for="telefone">Telefone</label>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Adicionar telefone</button>
+		</form>
+		
+		<h5>Endereço</h5>
+		<span th:text="${endereco_length}"></span>
+		<ul class="collection with-header">
+		
+			<li class="collection-item"
+				th:each="endereco: ${enderecos}">
+				<div>
+					<form method="POST" action="/deletarEndereco">
+						<input type="hidden" class="validate" name="endereco" required th:value="${endereco.id}" />
+						<span th:text="${endereco.toString()}"></span>
+						<button href="#!" class="secondary-content btn-flat close-button">
+							<i class="material-icons">close</i>
+						</button>
+					</form>
+				</div>
+			</li>
+		</ul>
+		<form class="col s12 form" method="POST" action="/adicionarEndereco">
+			<div class="row">
+
+				<div class="input-field col s8">
+					<input type="text" name="rua" required /> <label for="rua">Rua/Avenida</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" name="numero" required /> <label for="numero">Número</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" name="complemento" /> <label for="complemento">Complemento</label>
+				</div>
+				<div class="input-field col s5">
+					<input type="text" name="bairro" required /> <label for="bairro">Bairro</label>
+				</div>
+				<div class="input-field col s5">
+					<input type="text" name="cidade" required /> <label for="cidade">Cidade</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="text" name="uf" required /> <label for="uf">UF</label>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Adicionar endereço</button>
+		</form>
+		
+	</div>
+</div>
+</html>
+

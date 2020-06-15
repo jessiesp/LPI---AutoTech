@@ -2,13 +2,11 @@ package com.autotech.controllers;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.autotech.daos.ClienteDAO;
 import com.autotech.daos.Database;
 import com.autotech.daos.UsuarioDAO;
@@ -40,5 +38,3 @@ public class AdminController {
 		return "redirect:/listarClientes";
 	}
 }
-
-

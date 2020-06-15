@@ -1,3 +1,7 @@
+body {
+    background-color: #fafafa;
+}
+
 .login {
 	display: inline-block;
 	padding: 32px 48px 0px 48px;
@@ -8,3 +12,74 @@
 	margin-bottom: -75px;
 }
 
+nav {
+  color: black;
+  background-color: #fff;
+  height: 65px;
+  line-height: 65px;
+}
+
+nav .brand-logo {
+    color: black;
+}
+
+i.left {
+    margin-right: 2px !important;
+}
+
+.btn, .btn-large, .btn-small {
+  color: #fff;
+  background-color: black;
+}
+
+.btn:hover, .btn-large:hover, .btn-small:hover {
+    background-color: #6c0000;
+}
+
+.btn:focus, .btn-large:focus, .btn-small:focus, .btn-floating:focus {
+    background-color: #ce0000;
+}
+
+a {
+    color: red;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #aa2222;
+    -webkit-box-shadow: 0 1px 0 0 #aa2222;
+    box-shadow: 0 1px 0 0 #aa2222;
+}
+
+.logo-img {
+    margin-top: -45px;
+    width: 155px;
+}
+
+nav ul a {
+    color: black;
+}
+
+nav a {
+    color: black;
+}
+
+.form{
+	margin-bottom: 40px;
+}
+
+.close-button{
+	margin-top: -6px;
+}
+
+span.badge.new:after {
+    content: "";
+}
+
+span.badge.new {
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: #fff;
+    background-color: #26a69a;
+    border-radius: 2px;
+    white-space:nowrap;
+}

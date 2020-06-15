@@ -10,9 +10,9 @@ import com.autotech.models.Carro;
 
 public class CarroDAO {
 	
-	public static ArrayList<Carro> getCarros(Connection conexao) throws SQLException {
+	public static ArrayList<Carro> getCarrosAndServicos(Connection conexao, int usuarioId) throws SQLException {
 		Statement st = null;
-		String query = "SELECT * FROM autotech.carro";
+		String query = "SELECT * FROM autotech.carro, autotech.cliente WHERE autotech.carro.cliente_id = autotech.cliente.id AND autotech.cliente.usuario_id = " + usuarioId;
 		ArrayList<Carro> carros = new ArrayList<Carro>();
 		
 		try {
@@ -22,6 +22,39 @@ public class CarroDAO {
 				Carro carro = new Carro(
 					rs.getInt("id"), rs.getString("placa"), rs.getString("ano"), 
 					rs.getString("cor"), rs.getInt("carroModelo_id"), rs.getInt("cliente_id")
+				);
+				carro.setOrdensServico(OrdemServicoDAO.getOrdensServico(conexao, carro.id));
+				carros.add(carro);
+			}
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return carros;
+	}
+	
+	public static ArrayList<Carro> getCarros(Connection conexao, int usuarioId) throws SQLException {
+		Statement st = null;
+		String query = "" +
+			"SELECT autotech.carro.id, autotech.carro.placa, autotech.carro.ano, autotech.carro.cor, autotech.carromodelo.nomeModelo, autotech.fabricante.nome AS nomeFabricante " + 
+			"FROM autotech.carro, autotech.cliente, autotech.carromodelo, autotech.fabricante " + 
+			"WHERE " + 
+			"	autotech.carro.cliente_id = autotech.cliente.id AND " + 
+			"	autotech.carro.carroModelo_id = autotech.carromodelo.id AND " + 
+			"   autotech.carromodelo.fabricante_id = autotech.fabricante.id AND " + 
+			"	autotech.cliente.usuario_id = " + usuarioId;
+		ArrayList<Carro> carros = new ArrayList<Carro>();
+		
+		try {
+			st = conexao.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				Carro carro = new Carro(
+					rs.getInt("id"), rs.getString("placa"), rs.getString("ano"), 
+					rs.getString("cor"), rs.getString("nomeModelo"), rs.getString("nomeFabricante")
 				);
 				carros.add(carro);
 			}

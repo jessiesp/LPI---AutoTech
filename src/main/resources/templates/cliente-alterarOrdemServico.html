@@ -5,19 +5,19 @@
         layout:decorator="layout.html">
         <div layout:fragment="container" class=container>
          <div class="row">
-         <h3>Solicitar serviços</h3>
+         <h3>Editar</h3>
          <form autocomplete="off" method="post">
 	      <div class="row">
 	        <div class="input-field col s12 m4 l3">
-	          <input placeholder="Data" id="data" type="date" class="validate" name="data" required  >
+	          <input placeholder="Data" id="data" type="date" class="validate" name="data" required th:value="${#dates.format(ordemServico.getData(), 'yyyy-MM-dd')}" >
 	          <label for="data">Data</label>
 	        </div>
 	        <div class="input-field col s12 m8 l9">
 	        
 
 			    <select required multiple name="servicos">
-			      <option value="" disabled selected>Selecione</option>
-			   	  <option th:each="servico : ${servicos}" th:value="${servico.id}" th:text="${servico.nome}"></option>
+			      <option value="" disabled>Selecione</option>
+			   	  <option th:each="servico : ${servicos}" th:value="${servico.id}" th:text="${servico.nome}" th:selected="${ordemServico.hasServico(servico.id)}"></option>
 			    </select>
 			    <label>Informe os serviços desejados</label>
 	        </div>
@@ -25,18 +25,18 @@
 	        <div class="input-field col s12">
 	        <select required name="carroId">
 			      <option value="" disabled selected>Selecione</option>
-			   	  <option th:each="carro : ${carros}" th:value="${carro.id}" th:text="${carro.toFullString()}"></option>
+			   	  <option th:each="carro : ${carros}" th:value="${carro.id}" th:text="${carro.toFullString()}" th:selected="${ordemServico.carroId == carro.id}"></option>
 			    </select>
 			    <label>Selecione o carro</label>
 	        </div>
 	        <div class="input-field col s12">
 	        <i class="material-icons prefix">textsms</i>
-	          <input id="comentarios" type="text" class="validate" name="comentarios" th:value="${comentarios}">
+	          <input id="comentarios" type="text" class="validate" name="comentarios" th:value="${ordemServico.comentarios}">
 	          <label for="comentarios">Adicione um comentário</label>
 	        </div>
 	      </div>
 	         </div>
-				<button class="waves-effect waves-light btn" type="submit">Solicitar</button> 
+				<button class="waves-effect waves-light btn" type="submit">Finalizar edição</button> 
 				</form>
         </div>
         </div>

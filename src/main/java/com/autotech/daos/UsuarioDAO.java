@@ -44,8 +44,9 @@ public class UsuarioDAO {
 	}
 
 	public static Usuario getUsuario(Connection conexao, int idUsuario) throws SQLException {
-		Statement st = null;
+		Statement st = null, st_telefone = null;
 		String query = "SELECT * FROM autotech.usuario WHERE id = ";
+		String query_telefone = "SELECT telefone FROM autotech.telefone WHERE usuario_id = ";
 		Usuario usuario = null;
 		
 		try {
@@ -55,6 +56,11 @@ public class UsuarioDAO {
 				usuario = new Usuario(
 					idUsuario, rs.getString("email"), rs.getString("tipo")
 				);
+				st_telefone = conexao.createStatement();
+				ResultSet rs_tels = st_telefone.executeQuery(query_telefone + usuario.id);
+				while (rs_tels.next()) {
+					usuario.adicionarTelefone(rs_tels.getString("telefone"));
+				}
 			}
 		} catch (SQLException e ) {
 			System.out.println("Erro! " + e);
@@ -105,20 +111,14 @@ public class UsuarioDAO {
 		}
 	}
 	
-	public static boolean inserirTelefone(Connection conexao, int usuario_id, String telefone) throws SQLException {
+	public static void inserirTelefone(Connection conexao, int usuario_id, String telefone) throws SQLException {
 		PreparedStatement st = null;
 		String query = "INSERT INTO autotech.telefone (telefone, usuario_id) VALUES (?, ?)";
 
-		try {
-			st = conexao.prepareStatement(query);
-			st.setString(1, telefone);
-			st.setInt(2, usuario_id);
-			st.execute();
-			return true;
-		} 
-		catch (SQLException e ) {
-			return false;
-	    }
+		st = conexao.prepareStatement(query);
+		st.setString(1, telefone);
+		st.setInt(2, usuario_id);
+		st.execute();
 	}
 	
 	public static void deletarUsuario(Connection conexao, int usuarioId) throws SQLException {
@@ -177,4 +177,43 @@ public class UsuarioDAO {
 	    }
 		return true;
 	}	
+	
+	public static boolean alterarSenha(Connection conexao, String password, int usuarioId) throws SQLException {
+		PreparedStatement stUsuario = null;
+		String queryUsuario = "UPDATE autotech.usuario SET password = ? WHERE id = ?";
+		
+		try {
+			stUsuario = conexao.prepareStatement(queryUsuario);
+			stUsuario.setString(1, password);
+			stUsuario.setInt(2, usuarioId);
+			stUsuario.execute();
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (stUsuario != null) stUsuario.close();  
+	    }
+		return true;
+	}	
+	
+	public static void deletarTelefone(Connection conexao, int usuarioId, String telefone) throws SQLException {
+		PreparedStatement stTelefone = null;
+		String queryTelefone = "DELETE FROM autotech.telefone WHERE usuario_id = ? AND telefone LIKE ?";
+		
+		try {
+			stTelefone = conexao.prepareStatement(queryTelefone);
+			stTelefone.setInt(1, usuarioId);
+			stTelefone.setString(2, telefone);
+			stTelefone.execute();
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			throw e;
+	    } 
+		finally {
+	        if (stTelefone != null) stTelefone.close(); 
+	    }
+	}
 }
