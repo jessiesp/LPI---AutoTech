@@ -16,7 +16,7 @@
 	        
 
 			    <select required multiple name="servicos">
-			      <option value="" disabled selected>Selecione</option>
+			      <option value="" disabled >Selecione</option>
 			   	  <option th:each="servico : ${servicos}" th:value="${servico.id}" th:text="${servico.nome}"></option>
 			    </select>
 			    <label>Informe os serviços desejados</label>

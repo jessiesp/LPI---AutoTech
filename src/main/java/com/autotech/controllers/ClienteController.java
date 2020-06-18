@@ -4,23 +4,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.autotech.daos.CarroDAO;
 import com.autotech.daos.CarroModeloDAO;
 import com.autotech.daos.ClienteDAO;
 import com.autotech.daos.Database;
 import com.autotech.daos.EnderecoDAO;
-import com.autotech.daos.OrdemServicoDAO;
-import com.autotech.daos.ServicoDAO;
 import com.autotech.daos.UsuarioDAO;
 import com.autotech.models.Carro;
 import com.autotech.models.CarroModelo;
@@ -83,7 +78,7 @@ public class ClienteController {
 		Usuario usuario = UsuarioDAO.getUsuario(conexao, usuarioId);
 		
 		if(!usuario.isCliente()) {
-			return "redirect:/funcionario";
+			return "redirect:/painel";
 		}
 		Cliente cliente = ClienteDAO.getClienteByUsuario(conexao, usuario.id);
 		ArrayList<Endereco> enderecos = EnderecoDAO.getEnderecos(conexao, usuarioId);

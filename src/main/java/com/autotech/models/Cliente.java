@@ -3,7 +3,8 @@ package com.autotech.models;
 public class Cliente {
 	
 	private int id, usuario_id;
-	private String nome, cpf;
+	private String nome;
+	private String cpf;
 	
 	public Cliente(int id, String nome, String cpf, int usuario_id) {
 		this.id = id;
@@ -26,7 +27,7 @@ public class Cliente {
 	}
 	
 	public String getNome() {
-		return this.nome;
+		return nome;
 	}
 	
 	public String getCpf() {

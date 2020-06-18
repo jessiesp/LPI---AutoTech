@@ -14,17 +14,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.autotech.daos.Database;
 import com.autotech.daos.UsuarioDAO;
+import com.autotech.models.Usuario;
 
 @Controller
 public class IndexController {
 	
 	@RequestMapping("/")
-	public String Index(ModelMap model, HttpSession session) {
+	public String Index(ModelMap model, HttpSession session) throws SQLException {
 		Integer usuarioId = (Integer) session.getAttribute("usuarioId");
 		if(usuarioId == null) {
 			return "redirect:/login";
 		}
-		return "redirect:/ordemServico";
+		Connection conexao = Database.getConexao();
+		Usuario usuario = UsuarioDAO.getUsuario(conexao, usuarioId);
+		if(usuario.isCliente()) {
+			return "redirect:/ordemServico";
+		} else {
+			return "redirect:/painel";
+		}
+		
 	}
 
 	@RequestMapping(value="/logout")
@@ -44,14 +52,16 @@ public class IndexController {
 		String  email = request.getParameter("email"),
 				senha = request.getParameter("password");
 		int usuarioId = UsuarioDAO.getUsuarioId(conexao, email, senha);
-		
 		if(usuarioId == 0) {
 			attributes.addFlashAttribute("mensagem", "Usuário ou senha inválidos!");
 			return "redirect:/login";
 		}
-		else {
-			session.setAttribute("usuarioId", usuarioId);
+		session.setAttribute("usuarioId", usuarioId);
+		Usuario usuario = UsuarioDAO.getUsuario(conexao, usuarioId);
+		if(usuario.isCliente()) {
 			return "redirect:/ordemServico";
+		} else {
+			return "redirect:/painel";
 		}
 	}
 }

@@ -27,8 +27,8 @@
 	            <td th:if="${ordemServico.status == 'emAndamento'}"><span class="new badge yellow">Em andamento</span></td>
 	            <td th:if="${ordemServico.status == 'concluido'}"><span class="new badge green">Concluído</span></td>
 	            
-	            <td><a th:href="@{/alterarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small">Alterar<i class="material-icons right">edit</i></a></td>
-	            <td><a th:href="@{/deletarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small">Remover<i class="material-icons right">delete_forever</i></a></td>
+	            <td><a th:href="@{/alterarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small" title="Alterar"><i class="material-icons">edit</i></a></td>
+	            <td><a th:href="@{/deletarOrdemServico} + '?id=' + ${ordemServico.getId()}" class="waves-effect waves-light btn-small" title="Remover"><i class="material-icons">delete_forever</i></a></td>
 	          </tr>
 	           
 	        </tbody>

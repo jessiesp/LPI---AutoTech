@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Carro {
 	
-	public int id, carroModelo_id, cliente_id;
+	public int id, carroModelo_id, cliente_id, countOrdens;
 	public String placa, ano, cor, nomeModelo, nomeFabricante;
 	private ArrayList<OrdemServico> ordensServico;
 	
@@ -25,13 +25,14 @@ public class Carro {
 		this.cliente_id = cliente_id;
 	}
 	
-	public Carro(int id, String placa, String ano, String cor, String nomeModelo, String nomeFabricante) {
+	public Carro(int id, String placa, String ano, String cor, String nomeModelo, String nomeFabricante, int countOrdens) {
 		this.id = id;
 		this.placa = placa;
 		this.ano = ano;
 		this.cor = cor;
 		this.nomeModelo = nomeModelo;
 		this.nomeFabricante = nomeFabricante;
+		this.countOrdens = countOrdens;
 	}
 	public String getInfo() {
 		return String.format(
@@ -58,5 +59,9 @@ public class Carro {
 	
 	public ArrayList<OrdemServico> getOrdensServico() {
 		return this.ordensServico;
+	}
+	
+	public boolean hasOrdens() {
+		return this.countOrdens > 0;
 	}
 }

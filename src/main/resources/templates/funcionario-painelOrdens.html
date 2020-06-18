@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorator="layoutFunc.html">
+        <div layout:fragment="container" class=container>
+        
+          <h3>Ordens de Serviço</h3>
+          
+	          <h5><span class="new badge red">Em análise</span></h5>
+	          <table class="striped">
+		        <thead>
+		          <tr>
+		              <th>Data</th>
+		              <th>Serviços</th>
+		              <th>Comentários</th>
+		              <th>Ações</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="ordemServico : ${ordensEmAnalise}">
+		            <td th:text="${#dates.format(ordemServico.getData(), 'dd/MM/yyyy')}"></td>
+		             <td th:text="${ordemServico.getServicos()}"></td>
+		             <td th:text="${ordemServico.comentarios}"></td>
+		             <td>
+		             	<form method="POST" action="/alterarStatusOrdemServico">
+		            		<button type="submit" class="waves-effect waves-light btn-small" title="Iniciar">Iniciar </button>
+		            		<input type="hidden" name="ordemServicoId" th:value="${ordemServico.id}" />
+		            		<input type="hidden" name="status" value="emAndamento" />
+		            	</form>
+		             </tr>
+		        </tbody>
+		      </table>
+	      
+	          <h5><span class="new badge yellow">Em andamento</span></h5>
+	          <table class="striped">
+		        <thead>
+		          <tr>
+		              <th>Data</th>
+		              <th>Serviços</th>
+		              <th>Comentários</th>
+		              <th>Ações</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="ordemServico : ${ordensEmAndamento}">
+		            <td th:text="${#dates.format(ordemServico.getData(), 'dd/MM/yyyy')}"></td>
+		             <td th:text="${ordemServico.getServicos()}"></td>
+		             <td th:text="${ordemServico.comentarios}"></td>
+		            <td>
+		            	<form method="POST" action="/alterarStatusOrdemServico">
+		            		<button type="submit" class="waves-effect waves-light btn-small" title="Iniciar">Concluir </button>
+		            		<input type="hidden" name="ordemServicoId" th:value="${ordemServico.id}" />
+		            		<input type="hidden" name="status" value="concluido" />
+		            	</form>
+		            </td>
+		           </tr>
+		        </tbody>
+		      </table>
+
+	          <h5><span class="new badge green">Concluídas</span></h5>
+	          <table class="striped">
+		        <thead>
+		          <tr>
+		              <th>Data</th>
+		              <th>Serviços</th>
+		              <th>Comentários</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr th:each="ordemServico : ${ordensConcluido}">
+		            <td th:text="${#dates.format(ordemServico.getData(), 'dd/MM/yyyy')}"></td>
+		             <td th:text="${ordemServico.getServicos()}"></td>
+		             <td th:text="${ordemServico.comentarios}"></td>
+		           </tr>
+		        </tbody>
+		      </table>
+          </div>
+</html>

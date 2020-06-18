@@ -2,8 +2,6 @@ package com.autotech.controllers;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,14 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.autotech.daos.CarroDAO;
-import com.autotech.daos.ClienteDAO;
 import com.autotech.daos.Database;
 import com.autotech.daos.OrdemServicoDAO;
 import com.autotech.daos.ServicoDAO;
-import com.autotech.daos.UsuarioDAO;
-import com.autotech.models.Carro;
-import com.autotech.models.Cliente;
-import com.autotech.models.OrdemServico;
 
 @Controller
 public class OrdemServicoController {

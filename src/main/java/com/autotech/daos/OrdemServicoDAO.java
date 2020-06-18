@@ -45,6 +45,62 @@ public class OrdemServicoDAO {
 	    }	
 		return ordensServico;
 	}
+
+	public static int countOrdensServico(Connection conexao, int carroId) throws SQLException {
+		PreparedStatement st = null;
+		String query = "SELECT COUNT(id) AS count FROM autotech.ordemservico WHERE carro_id = ? ORDER BY data DESC";
+		int result = 0;
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setInt(1, carroId);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				result = rs.getInt("count");
+			}
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return result;
+	}
+
+	public static ArrayList<OrdemServico> getOrdensServicoByStatus(Connection conexao, String status) throws SQLException {
+		Statement stServico = null;
+		PreparedStatement st = null;
+		String query = "SELECT * FROM autotech.ordemservico WHERE status LIKE ? ORDER BY data DESC";
+		String queryServico = "SELECT s.id, s.nome, s.preco FROM autotech.servico_has_ordemservico as o, autotech.servico as s " + 
+							  "WHERE s.id = o.servico_id AND o.ordemservico_id = ";
+		ArrayList<OrdemServico> ordensServico = new ArrayList<OrdemServico>();
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, status);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				OrdemServico ordemServico = new OrdemServico(
+					rs.getInt("id"), rs.getString("status"), rs.getString("data"), rs.getString("comentarios"),rs.getInt("funcionario_id"), rs.getInt("carro_id")
+				);
+				stServico = conexao.createStatement();
+				ResultSet rsServico = stServico.executeQuery(queryServico + ordemServico.id);
+				while (rsServico.next()) {
+					Servico servico = new Servico(rsServico.getInt("id"), rsServico.getString("nome"), rsServico.getFloat("preco"));
+					ordemServico.adicionarServico(servico);
+				}
+				ordensServico.add(ordemServico);
+			}
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }	
+		return ordensServico;
+	}
 	
 	public static OrdemServico getOrdemServico(Connection conexao, int idOrdemServico) throws SQLException {
 		Statement st = null, stServico = null;
@@ -158,6 +214,26 @@ public class OrdemServicoDAO {
 			st.setString(2, comentarios);
 			st.setInt(3, carro_id);
 			st.setInt(4, ordemServicoId);
+			st.execute();
+			return true;
+		}
+		catch (SQLException e ) {
+			System.out.println("Erro! " + e);
+			return false;
+	    } 
+		finally {
+	        if (st != null) st.close(); 
+	    }		
+	}
+	
+	public static boolean alterarStatus(Connection conexao, String status, int ordemServicoId) throws SQLException {
+		PreparedStatement st = null;
+		String query = "UPDATE autotech.ordemServico SET status = ? WHERE id = ?";
+		
+		try {
+			st = conexao.prepareStatement(query);
+			st.setString(1, status);
+			st.setInt(2, ordemServicoId);
 			st.execute();
 			return true;
 		}

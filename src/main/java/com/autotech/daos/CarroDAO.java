@@ -52,9 +52,11 @@ public class CarroDAO {
 			st = conexao.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			while (rs.next()) {
+				int carroId = rs.getInt("id");
+				int countOrdens = OrdemServicoDAO.countOrdensServico(conexao, carroId);
 				Carro carro = new Carro(
-					rs.getInt("id"), rs.getString("placa"), rs.getString("ano"), 
-					rs.getString("cor"), rs.getString("nomeModelo"), rs.getString("nomeFabricante")
+					carroId, rs.getString("placa"), rs.getString("ano"), 
+					rs.getString("cor"), rs.getString("nomeModelo"), rs.getString("nomeFabricante"), countOrdens
 				);
 				carros.add(carro);
 			}

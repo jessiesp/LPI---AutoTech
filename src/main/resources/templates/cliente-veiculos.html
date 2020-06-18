@@ -13,6 +13,8 @@
 	              <th>Fabricante</th>
 	              <th>Ano</th>
 	              <th>Cor</th>
+	              <th># Solicitações</th>
+	              <th>Ações</th>
 	          </tr>
 	        </thead>
 	
@@ -23,9 +25,11 @@
 	            <td th:text="${carro.nomeFabricante}"></td>
 	            <td th:text="${carro.ano}"></td>
 	            <td th:text="${carro.cor}"></td>
+	            <td th:text="${carro.countOrdens}"></td>
 	            <td>
 	            	<form method="POST" action="/deletarVeiculo">
-	            		<button type="submit" class="waves-effect waves-light btn-small">Remover<i class="material-icons right">delete_forever</i></button>
+	            		<button type="submit" class="waves-effect waves-light btn-small" title="Remover" th:if="${!carro.hasOrdens()}"><i class="material-icons">delete_forever</i></button>
+	            		<button type="submit" class="waves-effect waves-light btn-small" title="Remover" th:if="${carro.hasOrdens()}" disabled><i class="material-icons">delete_forever</i></button>
 	            		<input type="hidden" name="carroId" th:value="${carro.id}" />
 	            	</form>
             	</td>

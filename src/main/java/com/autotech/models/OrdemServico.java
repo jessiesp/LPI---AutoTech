@@ -9,7 +9,9 @@ import java.util.ArrayList;
 public class OrdemServico {
 	
 	public int id, funcionarioId, carroId;
-	public String status, data, comentarios;
+	public String status;
+	public String data;
+	public String comentarios;
 	public ArrayList<Servico> servicos = new ArrayList<Servico>();
 	
 	public OrdemServico(int id, String status, String data, String comentarios, int funcionarioId, int carroId) {
@@ -71,5 +73,9 @@ public class OrdemServico {
 			if(this.servicos.get(i).id == servicoId) return true;
 		}
 		return false;
+	}
+
+	public String getStatus() {
+		return this.status;
 	}
 }
